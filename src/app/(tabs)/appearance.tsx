@@ -24,7 +24,7 @@ export default function AppearanceScreen() {
 
     return (
         <View className="flex-1 bg-background px-5 pt-6">
-            <Text className="mb-2 font-poppins-semibold text-2xl text-foreground">
+            <Text className="mb-2 font-poppins-medium text-xl text-foreground">
                 Appearance
             </Text>
 

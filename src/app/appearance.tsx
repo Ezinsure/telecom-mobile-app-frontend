@@ -34,7 +34,7 @@ export default function AppearanceScreen() {
             </Text>
 
             <Text className="mt-2 font-poppins text-text-secondary">
-                Choose how Solektra looks
+                Choose how Solektra lookseee
             </Text>
 
             <View className="mt-8 gap-3">

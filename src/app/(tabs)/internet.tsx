@@ -491,8 +491,7 @@ const InternetScreen = () => {
                         )}
 
                         <View style={styles.buttonsRow}>
-                            <Button
-                                variant="outline"
+                            <Pressable
                                 className="flex-1"
                                 onPress={closeBuyModal}
                                 style={({ pressed }) => [
@@ -501,15 +500,18 @@ const InternetScreen = () => {
                                 ]}
                             >
                                 <Text className="text-xs font-poppins-medium ">Cancel</Text>
-                            </Button>
-                            <Button
-                                className="flex-1 bg-[#0072CE] active:opacity-80"
+                            </Pressable>
+                            <Pressable
+                                style={({ pressed }) => [
+                                    styles.confirmButton,
+                                    pressed && styles.pressed,
+                                ]}
                                 onPress={handleConfirmPurchase}
                             >
                                 <Text className="text-white text-xs font-poppins-medium">
                                     Confirm
                                 </Text>
-                            </Button>
+                            </Pressable>
                         </View>
                     </View>
                 </KeyboardAvoidingView>
@@ -538,7 +540,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 13,
+        paddingVertical: 10,
         borderRadius: 12,
         borderWidth: 1,
         borderColor: "#E2E5F0",
@@ -547,7 +549,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 13,
+        paddingVertical: 10,
         borderRadius: 12,
         backgroundColor: "#0072CE",
     },
