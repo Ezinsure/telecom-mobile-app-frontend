@@ -25,30 +25,32 @@ const TabsLayout = () => {
 
     const TabIcon = ({ focused, label, Icon }: TabIconProps) => {
         return (
-            <View style={[styles.iconWrapper, focused && (isDark
-                ? styles.iconWrapperActiveDark
-                : styles.iconWrapperActive)]}>
+            <View style={[styles.iconWrapper, focused &&
+                (isDark
+                    ? styles.iconWrapperActiveDark
+                    : styles.iconWrapperActive),
+            ]}>
                 <Icon
                     size={focused ? 16 : 20}
                     color={focused ? ACTIVE_COLOR : INACTIVE_COLOR}
                     strokeWidth={focused ? 2 : 1.8}
                 />
+
                 {focused && <Text style={styles.activeLabel}>{label}</Text>}
             </View>
         );
     };
-
     return (
         <Tabs
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: ACTIVE_COLOR,
-                tabBarInactiveTintColor: isDark
-                    ? "#FFFFFF80"
-                    : INACTIVE_COLOR,
-                tabBarStyle:
-                    isDark && styles.tabBarDark,
+                tabBarInactiveTintColor: isDark ? "#FFFFFF80" : INACTIVE_COLOR,
+                tabBarStyle: {
+                    ...styles.tabBar,
+                    ...(isDark ? styles.tabBarDark : {}),
+                },
                 tabBarItemStyle: styles.tabItem,
             }}
         >
@@ -61,15 +63,18 @@ const TabsLayout = () => {
                     ),
                 }}
             />
+
             <Tabs.Screen
                 name="internet"
                 options={{
                     tabBarLabel: "Internet",
+
                     tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} label="Internet" Icon={Wifi} />
                     ),
                 }}
             />
+
             <Tabs.Screen
                 name="voLTE"
                 options={{
@@ -79,6 +84,7 @@ const TabsLayout = () => {
                     ),
                 }}
             />
+
             <Tabs.Screen
                 name="devices"
                 options={{
@@ -92,6 +98,7 @@ const TabsLayout = () => {
                     ),
                 }}
             />
+
             <Tabs.Screen
                 name="support"
                 options={{
@@ -104,6 +111,7 @@ const TabsLayout = () => {
         </Tabs>
     );
 };
+
 export default TabsLayout;
 
 const styles = StyleSheet.create({
@@ -124,18 +132,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
     },
     tabBarDark: {
-        backgroundColor: "rgba(21, 20, 28, 0.88)",
-
+        backgroundColor: "rgba(27, 34, 44, 0.9)",
         shadowColor: "#000000",
         shadowOpacity: 0.35,
         shadowRadius: 18,
-
         elevation: 8,
     },
+
     tabItem: {
         paddingTop: 16,
         paddingBottom: 10,
     },
+
     iconWrapper: {
         flexDirection: "row",
         alignItems: "center",
@@ -146,14 +154,17 @@ const styles = StyleSheet.create({
         gap: 6,
     },
     iconWrapperActiveDark: {
-        backgroundColor: "rgba(0, 114, 206, 0.16)",
+        backgroundColor: "rgba(10, 104, 206, 0.16)",
     },
+
     iconWrapperActive: {
         backgroundColor: ACTIVE_BG,
     },
+
     activeLabel: {
         fontSize: 12,
         fontFamily: "Poppins-Medium",
         color: ACTIVE_COLOR,
     },
+
 });

@@ -128,11 +128,7 @@ const DevicesScreen = () => {
     const DeviceCard = ({ device }: { device: Device }) => (
         <View style={[styles.card, { width: cardWidth }]}>
             <LinearGradient
-                colors={
-                    isDark
-                        ? ["#181720", "#15141C"]
-                        : ["#f8f9fe", "#ffffff"]
-                }
+                colors={['#f8f9fe', '#ffffff']}
                 style={styles.cardGradient}
             >
                 <TouchableOpacity onPress={() => openDeviceDetails(device)} activeOpacity={0.9}>
@@ -141,20 +137,20 @@ const DevicesScreen = () => {
                     </View>
                 </TouchableOpacity>
 
-                <View style={styles.cardContent}>
+                <View className="bg-surface" style={styles.cardContent}>
                     <TouchableOpacity onPress={() => openDeviceDetails(device)}>
                         <View style={styles.cardHeader}>
-                            <Text className="text-[15px] font-medium text-foreground" numberOfLines={1}>
+                            <Text className="text-[15px] font-poppins-medium text-foreground" numberOfLines={1}>
                                 {device.name}
                             </Text>
                         </View>
 
-                        <Text className="text-xs text-text-secondary mb-3">
+                        <Text className="text-xs text-text-secondary font-poppins mb-3">
                             {device.specs}
                         </Text>
 
                         <View style={styles.priceContainer}>
-                            <Text className="text-[16px] font-poppins-semibold text-foreground">
+                            <Text className="text-[16px] font-poppins-semibold text-[#0072CE]">
                                 RWF {device.price.toLocaleString()}
                             </Text>
                         </View>
@@ -173,16 +169,16 @@ const DevicesScreen = () => {
                                 end={{ x: 1, y: 0 }}
                             >
                                 <Ionicons name="logo-whatsapp" size={16} color="#fff" />
-                                <Text className='text-foreground text-sm font-medium'>Order </Text>
+                                <Text className='text-white dark:text-foreground text-sm font-medium'>Order </Text>
                             </LinearGradient>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
+                        <TouchableOpacity className="bg-white dark:bg-background border border-[#03022920] dark:border-[#ffffff20] rounded-xl items-center justify-center"
                             style={styles.viewButton}
                             activeOpacity={0.7}
                             onPress={() => openDeviceDetails(device)}
                         >
-                            <Ionicons name="eye-outline" size={16} color="#03022990" />
+                            <Ionicons name="eye-outline" size={16} className="text-text-secondary" />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -206,9 +202,9 @@ const DevicesScreen = () => {
 
                 {/* Search Input */}
                 <View style={styles.searchWrapper}>
-                    <View style={styles.searchBar}>
+                    <View className="bg-white dark:bg-surface" style={styles.searchBar}>
                         <Ionicons name="search-outline" size={20} color="#9ca3af" />
-                        <TextInput
+                        <TextInput className="text-foreground"
                             style={styles.searchInput}
                             placeholder="Search devices..."
                             placeholderTextColor="#9ca3af"
@@ -278,16 +274,16 @@ const DevicesScreen = () => {
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
+                    <View className="bg-white dark:bg-surface" style={styles.modalContent}>
                         {/* Modal Header */}
                         <View style={styles.modalHeader}>
                             <TouchableOpacity
                                 onPress={() => setModalVisible(false)}
                                 style={styles.modalCloseButton}
                             >
-                                <Ionicons name="close" size={24} color="#030229" />
+                                <Ionicons name="close" size={24} className="text-foreground" />
                             </TouchableOpacity>
-                            <Text style={styles.modalTitle}>Device Details</Text>
+                            <Text className="text-foreground font-poppins text-[18px]">Device Details</Text>
                             <View style={styles.modalPlaceholder} />
                         </View>
 
@@ -297,7 +293,7 @@ const DevicesScreen = () => {
                                     <Image source={selectedDevice.image} style={styles.modalImage} />
                                 </View>
                                 <View style={styles.modalInfoContainer}>
-                                    <Text style={styles.modalDeviceName}>{selectedDevice.name}</Text>
+                                    <Text className="dark:text-foreground" style={styles.modalDeviceName}>{selectedDevice.name}</Text>
                                     <Text style={styles.modalDeviceSpecs}>{selectedDevice.specs}</Text>
 
                                     <View style={styles.modalPriceContainer}>
@@ -307,19 +303,19 @@ const DevicesScreen = () => {
                                     </View>
                                     {selectedDevice.description && (
                                         <View style={styles.modalSection}>
-                                            <Text style={styles.modalSectionTitle}>Description</Text>
-                                            <Text style={styles.modalDescription}>
+                                            <Text className="dark:text-foreground" style={styles.modalSectionTitle}>Description</Text>
+                                            <Text className="dark:text-text-secondary" style={styles.modalDescription}>
                                                 {selectedDevice.description}
                                             </Text>
                                         </View>
                                     )}
                                     {selectedDevice.storage && (
                                         <View style={styles.modalSection}>
-                                            <Text style={styles.modalSectionTitle}>Storage Options</Text>
+                                            <Text className="dark:text-foreground" style={styles.modalSectionTitle}>Storage Options</Text>
                                             <View style={styles.modalStorageContainer}>
                                                 {selectedDevice.storage.map((storage, index) => (
-                                                    <View key={index} style={styles.modalStorageItem}>
-                                                        <Text style={styles.modalStorageText}>{storage}</Text>
+                                                    <View className="dark:bg-background" key={index} style={styles.modalStorageItem}>
+                                                        <Text className="dark:text-foreground" style={styles.modalStorageText}>{storage}</Text>
                                                     </View>
                                                 ))}
                                             </View>
@@ -357,7 +353,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContent: {
-        paddingBottom: 50,
+        paddingBottom: 100,
     },
     header: {
         flexDirection: 'row',
@@ -373,7 +369,6 @@ const styles = StyleSheet.create({
     searchBar: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
         paddingHorizontal: 16,
         paddingVertical: 2,
         borderRadius: 26,
@@ -389,7 +384,6 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 14,
         fontFamily: 'Poppins',
-        color: '#030229',
         paddingVertical: 12,
         paddingHorizontal: 10,
         marginLeft: 4,
@@ -417,7 +411,7 @@ const styles = StyleSheet.create({
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
     },
     card: {
         borderRadius: 16,
@@ -452,9 +446,6 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         padding: 4,
-        // backgroundColor: '#f8f9fe',
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#f0f2f5',
     },
     deviceImage: {
         width: '100%',
@@ -500,12 +491,10 @@ const styles = StyleSheet.create({
     viewButton: {
         flex: 0.5,
         borderWidth: 1,
-        borderColor: '#03022950',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 4,
-        backgroundColor: '#ffffff',
     },
     emptyState: {
         alignItems: 'center',
@@ -528,7 +517,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     modalContent: {
-        backgroundColor: '#ffffff',
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         maxHeight: '90%',
@@ -547,11 +535,6 @@ const styles = StyleSheet.create({
     modalCloseButton: {
         padding: 4,
     },
-    modalTitle: {
-        fontSize: 18,
-        color: '#030229',
-        fontFamily: 'Poppins',
-    },
     modalPlaceholder: {
         width: 32,
     },
@@ -569,7 +552,6 @@ const styles = StyleSheet.create({
     },
     modalDeviceName: {
         fontSize: 20,
-        color: '#030229',
         fontFamily: 'Poppins-medium',
         marginBottom: 4,
     },
@@ -595,7 +577,6 @@ const styles = StyleSheet.create({
     },
     modalSectionTitle: {
         fontSize: 16,
-        color: '#030229',
         fontFamily: 'Poppins-medium',
         marginBottom: 8,
     },

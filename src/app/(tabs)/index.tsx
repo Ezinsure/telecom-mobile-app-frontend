@@ -1,4 +1,5 @@
 import PurchaseModal from '@/components/purchaseModal';
+import SettingsModal from '@/components/settingModal';
 import Screen from '@/components/ui/Screen';
 import Text from '@/components/ui/text';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -88,14 +89,14 @@ const RechargeModal = ({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.modalBackdrop}
       >
-        <View style={styles.modalSheet}>
+        <View className="bg-white dark:bg-surface" style={styles.modalSheet}>
           <View style={styles.modalHeaderRow}>
             <View style={styles.modalHeaderLeft}>
-              <View style={styles.modalIconCircle}>
+              <View className='dark:bg-background' style={styles.modalIconCircle}>
                 <Ionicons
                   name={isRecharge ? 'flash' : 'wallet-outline'}
                   size={18}
-                  color="#0072CE"
+                  className='text-[#0072CE] dark:text-foreground'
                 />
               </View>
               <Text style={styles.modalTitle}>
@@ -103,10 +104,10 @@ const RechargeModal = ({
               </Text>
             </View>
             <Pressable onPress={onClose} hitSlop={10}>
-              <Ionicons name="close" size={22} color="#03022990" />
+              <Ionicons name="close" size={22} className='text-text-secondary' />
             </Pressable>
           </View>
-          <Text style={styles.modalSubTitle}>
+          <Text className='dark:text-text-secondary' style={styles.modalSubTitle}>
             {isRecharge ? 'Add money from your Mobile Money wallet to your phone balance.' : ''}
           </Text>
 
@@ -119,9 +120,13 @@ const RechargeModal = ({
             }}
             placeholder="07XX XXX XXX"
             keyboardType="phone-pad"
-            style={[styles.input, phoneError && styles.inputError]}
+            className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
           />
-          {!!phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
+          {!!phoneError && (
+            <Text className="text-red-500 font-poppins text-xs mt-1">
+              {phoneError}
+            </Text>
+          )}
 
           {isRecharge && (
             <><Text style={[styles.fieldLabel, { marginTop: 16 }]}>Amount (RWF)</Text><TextInput
@@ -132,13 +137,17 @@ const RechargeModal = ({
               }}
               placeholder="e.g. 2000"
               keyboardType="number-pad"
-              style={[styles.input, amountError && styles.inputError]} /></>
+              className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${amountError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`} /></>
           )}
-          {!!amountError && <Text style={styles.errorText}>{isRecharge ? amountError : ''}</Text>}
+          {!!amountError && (
+            <Text className="text-red-500 font-poppins text-xs mt-1">
+              {isRecharge ? amountError : ''}
+            </Text>
+          )}
 
           {isRecharge && <View style={styles.quickAmountsRow}>
             {QUICK_AMOUNTS.map((val) => (
-              <Pressable
+              <Pressable className='dark:bg-background'
                 key={val}
                 style={[
                   styles.quickAmountChip,
@@ -190,7 +199,7 @@ const RechargeModal = ({
 };
 
 const Index = () => {
-  const [profileModal, setProfileModal] = useState(false)
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [modalType, setModalType] = useState<ModalType>(null);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const openModal = (type: ModalType) => setModalType(type);
@@ -227,6 +236,7 @@ const Index = () => {
           <View style={styles.topBar}>
             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
               <Pressable className='bg-surface rounded-full items-center justify-center h-12 w-12'
+                onPress={() => setSettingsModalVisible(true)}
               >
                 <Ionicons
                   name={'person-outline'}
@@ -314,6 +324,12 @@ const Index = () => {
         onClose={() => setSelectedPlan(null)}
         onConfirm={handleConfirm}
       />
+      {/* Settings Modal */}
+      <SettingsModal
+        visible={settingsModalVisible}
+        onClose={() => setSettingsModalVisible(false)}
+      />
+
     </Screen>
   );
 };
@@ -328,7 +344,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 100,
   },
-
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -363,7 +378,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
   modalSheet: {
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 20,
@@ -400,7 +414,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#03022990',
     fontFamily: "Poppins",
-    marginBottom: 14
+    marginBottom: 16
   },
   fieldLabel: {
     fontSize: 13,
@@ -418,15 +432,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     fontSize: 14,
     color: '#030229',
-    fontFamily: "Poppins"
-  },
-  inputError: {
-    borderColor: '#E5484D',
-  },
-  errorText: {
-    fontSize: 11,
-    color: '#E5484D',
-    marginTop: 4,
     fontFamily: "Poppins"
   },
   quickAmountsRow: {

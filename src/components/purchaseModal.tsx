@@ -75,7 +75,7 @@ const PurchaseModal = ({
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 style={styles.backdrop}
             >
-                <View className="bg-white dark:bg-background" style={styles.sheet}>
+                <View className="bg-white dark:bg-surface" style={styles.sheet}>
                     {step === "form" && (
                         <>
                             <View style={styles.headerRow}>
@@ -92,7 +92,7 @@ const PurchaseModal = ({
                             </View>
 
                             {plan && (
-                                <View className="dark:bg-surface" style={styles.planCard}>
+                                <View className="dark:bg-background" style={styles.planCard}>
                                     <View>
                                         <Text className="font-poppins text-sm text-foreground">
                                             {plan.title}
@@ -127,8 +127,7 @@ const PurchaseModal = ({
                                 }}
                                 placeholder="07XX XXX XXX"
                                 keyboardType="phone-pad"
-                                style={[phoneError && styles.inputError]}
-                                className={`border dark:border-[#FFFFFF10] rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D]" : "border-[#03022920]"}`}
+                                className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
                             />
                             {!!phoneError && (
                                 <Text className="text-red-500 font-poppins text-xs mt-1">
@@ -279,9 +278,6 @@ const styles = StyleSheet.create({
     },
     fieldLabel: {
         fontSize: 13,
-    },
-    inputError: {
-        borderColor: "#E5484D",
     },
     errorText: {
         fontFamily: "Poppins",
