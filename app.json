@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.bikwayen.solektraapp",
+      "bundleIdentifier": "com.solektra.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -44,10 +44,7 @@
       "reactCompiler": true
     },
     "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "12e7ff70-8c25-4215-8391-c246d05ab395"
-      }
+      "router": {}
     }
   }
 }

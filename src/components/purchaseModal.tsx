@@ -71,171 +71,172 @@ const PurchaseModal = ({
             animationType="fade"
             onRequestClose={onClose}
         >
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : undefined}
-                style={styles.backdrop}
-            >
-                <View className="bg-white dark:bg-surface" style={styles.sheet}>
-                    {step === "form" && (
-                        <>
-                            <View style={styles.headerRow}>
-                                <Text className="font-poppins-medium text-base text-foreground">
-                                    Confirm Purchase
-                                </Text>
-                                <Pressable onPress={onClose} hitSlop={10}>
-                                    <Ionicons
-                                        name="close"
-                                        size={20}
-                                        className="text-text-secondary"
-                                    />
-                                </Pressable>
-                            </View>
-
-                            {plan && (
-                                <View className="dark:bg-background" style={styles.planCard}>
-                                    <View>
-                                        <Text className="font-poppins text-sm text-foreground">
-                                            {plan.title}
-                                        </Text>
-                                        <View className="flex flex-row gap-5">
-                                            {!!plan.subtitle && (
-                                                <Text className="font-poppins text-[11px] text-text-secondary mt-1">
-                                                    {plan.subtitle}
-                                                </Text>
-                                            )}
-                                            {!!plan.subtitles && (
-                                                <Text className="font-poppins-normal text-[11px] text-text-secondary mt-1">
-                                                    {plan.subtitles}
-                                                </Text>
-                                            )}
-                                        </View>
-                                    </View>
-                                    <Text className="font-poppins-semibold text-lg text-[#0072CE] dark:text-foreground">
-                                        {plan.price.toLocaleString()} FRW
-                                    </Text>
-                                </View>
-                            )}
-
-                            <Text className="text-sm text-foreground mt-2 mb-2 font-poppins">
-                                Phone number
-                            </Text>
-                            <TextInput
-                                value={phone}
-                                onChangeText={(t) => {
-                                    setPhone(t);
-                                    if (phoneError) setPhoneError("");
-                                }}
-                                placeholder="07XX XXX XXX"
-                                keyboardType="phone-pad"
-                                className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
-                            />
-                            {!!phoneError && (
-                                <Text className="text-red-500 font-poppins text-xs mt-1">
-                                    {phoneError}
-                                </Text>
-                            )}
-
-                            <View style={styles.buttonsRow}>
-                                <Pressable
-                                    style={({ pressed }) => [
-                                        styles.cancelButton,
-                                        pressed && styles.pressed,
-                                    ]}
-                                    onPress={onClose}
-                                >
-                                    <Text className=" font-poppins-medium text-foreground text-[13px]">
-                                        Cancel
-                                    </Text>
-                                </Pressable>
-                                <Pressable
-                                    style={({ pressed }) => [
-                                        styles.confirmButton,
-                                        pressed && styles.pressed,
-                                    ]}
-                                    onPress={handleSubmit}
-                                >
-                                    <Text className="font-poppins-medium text-white dark:text-foreground text-[13px]">
+            <View className="flex-1 w-full max-w-3xl">
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : undefined}
+                    style={styles.backdrop}
+                >
+                    <View className="bg-white dark:bg-surface" style={styles.sheet}>
+                        {step === "form" && (
+                            <>
+                                <View style={styles.headerRow}>
+                                    <Text className="font-poppins-medium text-base text-foreground">
                                         Confirm Purchase
                                     </Text>
-                                </Pressable>
-                            </View>
-                        </>
-                    )}
+                                    <Pressable onPress={onClose} hitSlop={10}>
+                                        <Ionicons
+                                            name="close"
+                                            size={20}
+                                            className="text-text-secondary"
+                                        />
+                                    </Pressable>
+                                </View>
 
-                    {step === "submitting" && (
-                        <View style={styles.centerState}>
-                            <ActivityIndicator size="large" color="#0072CE" />
-                            <Text className="font-poppins text-sm text-foreground mt-2">
-                                Processing your purchase…
-                            </Text>
-                        </View>
-                    )}
+                                {plan && (
+                                    <View className="dark:bg-background" style={styles.planCard}>
+                                        <View>
+                                            <Text className="font-poppins text-sm text-foreground">
+                                                {plan.title}
+                                            </Text>
+                                            <View className="flex flex-row gap-5">
+                                                {!!plan.subtitle && (
+                                                    <Text className="font-poppins text-[11px] text-text-secondary mt-1">
+                                                        {plan.subtitle}
+                                                    </Text>
+                                                )}
+                                                {!!plan.subtitles && (
+                                                    <Text className="font-poppins-normal text-[11px] text-text-secondary mt-1">
+                                                        {plan.subtitles}
+                                                    </Text>
+                                                )}
+                                            </View>
+                                        </View>
+                                        <Text className="font-poppins-semibold text-lg text-[#0072CE] dark:text-foreground">
+                                            {plan.price.toLocaleString()} FRW
+                                        </Text>
+                                    </View>
+                                )}
 
-                    {step === "success" && (
-                        <View style={styles.centerState}>
-                            <View style={[styles.resultIcon, { backgroundColor: "#E6F7EE" }]}>
-                                <Ionicons name="checkmark" size={28} color="#16A34A" />
-                            </View>
-                            <Text className="font-poppins-semibold text-lg text-foreground mt-4">
-                                Purchase Successful
-                            </Text>
-                            <Text className="font-poppins text-sm text-foreground mt-2">
-                                {plan?.title} has been sent to {phone}
-                            </Text>
-                            <Pressable
-                                style={({ pressed }) => [
-                                    styles.confirmButton,
-                                    pressed && styles.pressed,
-                                    { width: "100%", marginTop: 20 },
-                                ]}
-                                onPress={onClose}
-                            >
-                                <Text className="font-poppins-medium text-white dark:text-foreground text-[13px]">
-                                    Done
+                                <Text className="text-sm text-foreground mt-2 mb-2 font-poppins">
+                                    Phone number
                                 </Text>
-                            </Pressable>
-                        </View>
-                    )}
-
-                    {step === "error" && (
-                        <View style={styles.centerState}>
-                            <View style={[styles.resultIcon, { backgroundColor: "#FCE8E8" }]}>
-                                <Ionicons name="close" size={28} color="#E5484D" />
-                            </View>
-                            <Text className="font-poppins-semibold text-lg text-foreground mt-4">
-                                Purchase Failed
-                            </Text>
-                            <Text className="font-poppins text-sm text-foreground mt-2">
-                                Something went wrong. Please try again.
-                            </Text>
-                            <View style={[styles.buttonsRow, { width: "100%" }]}>
-                                <Pressable
-                                    style={({ pressed }) => [
-                                        styles.cancelButton,
-                                        pressed && styles.pressed,
-                                    ]}
-                                    onPress={onClose}
-                                >
-                                    <Text className="font-poppins-medium text-foreground text-[13px]">
-                                        Close
+                                <TextInput
+                                    value={phone}
+                                    onChangeText={(t) => {
+                                        setPhone(t);
+                                        if (phoneError) setPhoneError("");
+                                    }}
+                                    placeholder="07XX XXX XXX"
+                                    keyboardType="phone-pad"
+                                    className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
+                                />
+                                {!!phoneError && (
+                                    <Text className="text-red-500 font-poppins text-xs mt-1">
+                                        {phoneError}
                                     </Text>
-                                </Pressable>
+                                )}
+
+                                <View style={styles.buttonsRow}>
+                                    <Pressable
+                                        style={({ pressed }) => [
+                                            styles.cancelButton,
+                                            pressed && styles.pressed,
+                                        ]}
+                                        onPress={onClose}
+                                    >
+                                        <Text className=" font-poppins-medium text-foreground text-[13px]">
+                                            Cancel
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable
+                                        style={({ pressed }) => [
+                                            styles.confirmButton,
+                                            pressed && styles.pressed,
+                                        ]}
+                                        onPress={handleSubmit}
+                                    >
+                                        <Text className="font-poppins-medium text-white dark:text-foreground text-[13px]">
+                                            Confirm Purchase
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                            </>
+                        )}
+
+                        {step === "submitting" && (
+                            <View style={styles.centerState}>
+                                <ActivityIndicator size="large" color="#0072CE" />
+                                <Text className="font-poppins text-sm text-foreground mt-2">
+                                    Processing your purchase…
+                                </Text>
+                            </View>
+                        )}
+
+                        {step === "success" && (
+                            <View style={styles.centerState}>
+                                <View style={[styles.resultIcon, { backgroundColor: "#E6F7EE" }]}>
+                                    <Ionicons name="checkmark" size={28} color="#16A34A" />
+                                </View>
+                                <Text className="font-poppins-semibold text-lg text-foreground mt-4">
+                                    Purchase Successful
+                                </Text>
+                                <Text className="font-poppins text-sm text-foreground mt-2">
+                                    {plan?.title} has been sent to {phone}
+                                </Text>
                                 <Pressable
                                     style={({ pressed }) => [
                                         styles.confirmButton,
                                         pressed && styles.pressed,
+                                        { width: "100%", marginTop: 20 },
                                     ]}
-                                    onPress={() => setStep("form")}
+                                    onPress={onClose}
                                 >
-                                    <Text className="font-poppins-medium text-foreground text-[13px]">
-                                        Try Again
+                                    <Text className="font-poppins-medium text-white dark:text-foreground text-[13px]">
+                                        Done
                                     </Text>
                                 </Pressable>
                             </View>
-                        </View>
-                    )}
-                </View>
-            </KeyboardAvoidingView>
+                        )}
+
+                        {step === "error" && (
+                            <View style={styles.centerState}>
+                                <View style={[styles.resultIcon, { backgroundColor: "#FCE8E8" }]}>
+                                    <Ionicons name="close" size={28} color="#E5484D" />
+                                </View>
+                                <Text className="font-poppins-semibold text-lg text-foreground mt-4">
+                                    Purchase Failed
+                                </Text>
+                                <Text className="font-poppins text-sm text-foreground mt-2">
+                                    Something went wrong. Please try again.
+                                </Text>
+                                <View style={[styles.buttonsRow, { width: "100%" }]}>
+                                    <Pressable
+                                        style={({ pressed }) => [
+                                            styles.cancelButton,
+                                            pressed && styles.pressed,
+                                        ]}
+                                        onPress={onClose}
+                                    >
+                                        <Text className="font-poppins-medium text-foreground text-[13px]">
+                                            Close
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable
+                                        style={({ pressed }) => [
+                                            styles.confirmButton,
+                                            pressed && styles.pressed,
+                                        ]}
+                                        onPress={() => setStep("form")}
+                                    >
+                                        <Text className="font-poppins-medium text-foreground text-[13px]">
+                                            Try Again
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        )}
+                    </View>
+                </KeyboardAvoidingView></View>
         </Modal>
     );
 };

@@ -59,52 +59,52 @@ const VoiceScreen = () => {
                     Choose a bundle and enjoy more time to talk.
                 </Text>
             </View>
-
-            <ScrollView
-                className="flex-1 px-4 pb-4"
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 100 }}
-            >
-                <View className="w-full gap-8">
-                    {VOICE_BUNDLES.map((group) => (
-                        <View key={group.id} className="bg-surface rounded-2xl p-3 py-6">
-                            <Text className="font-nomal text-text-secondary uppercase text-sm px-1 pb-4">
-                                {group.label}
-                            </Text>
-                            <View className="gap-3">
-                                {group.options.map((option) => (
-                                    <View
-                                        key={option.id}
-                                        className="flex-row items-center justify-between border border-[#03022920] rounded-2xl px-4 py-3 bg-white dark:bg-background dark:text-foreground"
-                                    >
-                                        <View className="flex-row items-center gap-3 flex-1 pr-3">
-                                            <View className="w-7 h-7 rounded-full bg-[#0072CE]/10 dark:bg-surface  items-center justify-center">
-                                                <Ionicons name="call" size={15} className='text-[#0072CE] dark:text-foreground' />
-                                            </View>
-                                            <View className="flex-1">
-                                                <Text className="font-poppins-medium text-base text-foreground">
-                                                    {option.price.toLocaleString()} RWF
-                                                </Text>
-                                                <Text className="text-xs font-poppins text-text-secondary">
-                                                    {option.bundle ? `${option.bundle} ${'·'}` : ''} {option.minutes} · {option.sms}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <Button
-                                            className="bg-[#0072CE] dark:bg-surface rounded-full active:opacity-80"
-                                            onPress={() => setSelected(option)}
+            <View className="flex-1 w-full max-w-3xl">
+                <ScrollView
+                    className="flex-1 px-4 pb-4"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 100 }}
+                >
+                    <View className="w-full gap-8">
+                        {VOICE_BUNDLES.map((group) => (
+                            <View key={group.id} className="bg-surface rounded-2xl p-3 py-6">
+                                <Text className="font-nomal text-text-secondary uppercase text-sm px-1 pb-4">
+                                    {group.label}
+                                </Text>
+                                <View className="gap-3">
+                                    {group.options.map((option) => (
+                                        <View
+                                            key={option.id}
+                                            className="flex-row items-center justify-between border border-[#03022920] rounded-2xl px-4 py-3 bg-white dark:bg-background dark:text-foreground"
                                         >
-                                            <Text className="text-white text-xs font-poppins-medium px-2">
-                                                Buy
-                                            </Text>
-                                        </Button>
-                                    </View>
-                                ))}
+                                            <View className="flex-row items-center gap-3 flex-1 pr-3">
+                                                <View className="w-7 h-7 rounded-full bg-[#0072CE]/10 dark:bg-surface  items-center justify-center">
+                                                    <Ionicons name="call" size={15} className='text-[#0072CE] dark:text-foreground' />
+                                                </View>
+                                                <View className="flex-1">
+                                                    <Text className="font-poppins-medium text-base text-foreground">
+                                                        {option.price.toLocaleString()} RWF
+                                                    </Text>
+                                                    <Text className="text-xs font-poppins text-text-secondary">
+                                                        {option.bundle ? `${option.bundle} ${'·'}` : ''} {option.minutes} · {option.sms}
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <Button
+                                                className="bg-[#0072CE] dark:bg-surface rounded-full active:opacity-80"
+                                                onPress={() => setSelected(option)}
+                                            >
+                                                <Text className="text-white text-xs font-poppins-medium px-2">
+                                                    Buy
+                                                </Text>
+                                            </Button>
+                                        </View>
+                                    ))}
+                                </View>
                             </View>
-                        </View>
-                    ))}
-                </View>
-            </ScrollView>
+                        ))}
+                    </View>
+                </ScrollView></View>
             <PurchaseModal
                 visible={!!selected}
                 plan={

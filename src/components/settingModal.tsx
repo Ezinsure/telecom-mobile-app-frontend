@@ -24,47 +24,48 @@ const SettingsModal = ({ visible, onClose }: SettingsModalProps) => {
             animationType="fade"
             onRequestClose={onClose}
         >
-            <TouchableOpacity
-                style={styles.overlay}
-                activeOpacity={1}
-                onPress={onClose}
-            >
-                <View style={styles.modalContainer}>
-                    <View className="dark:bg-surface" style={styles.modalContent}>
-                        <View className='dark:border-b-[#FFFFFF10]' style={styles.header}>
-                            <Text className="font-poppins-medium text-lg text-foreground">Settings</Text>
-                            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                                <Ionicons name="close" size={24} className="text-foreground" />
+            <View className="flex-1 w-full max-w-3xl">
+                <TouchableOpacity
+                    style={styles.overlay}
+                    activeOpacity={1}
+                    onPress={onClose}
+                >
+                    <View style={styles.modalContainer}>
+                        <View className="dark:bg-surface" style={styles.modalContent}>
+                            <View className='dark:border-b-[#FFFFFF10]' style={styles.header}>
+                                <Text className="font-poppins-medium text-lg text-foreground">Settings</Text>
+                                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                                    <Ionicons name="close" size={24} className="text-foreground" />
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity
+                                style={styles.menuItem}
+                                onPress={() => handleNavigation("/profile")}
+                            >
+                                <View style={styles.menuIcon}>
+                                    <Ionicons name="person-outline" size={19} className="text-foreground" />
+                                </View>
+                                <Text style={styles.menuText}>Profile</Text>
+                                <Ionicons name="chevron-forward" size={18} color="#999" />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.menuItem}
+                                onPress={() => handleNavigation("/appearance")}
+                            >
+                                <View style={styles.menuIcon}>
+                                    <Ionicons
+                                        name="color-palette-outline"
+                                        size={19}
+                                        className="text-foreground"
+                                    />
+                                </View>
+                                <Text style={styles.menuText}>Appearance</Text>
+                                <Ionicons name="chevron-forward" size={18} color="#999" />
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            style={styles.menuItem}
-                            onPress={() => handleNavigation("/profile")}
-                        >
-                            <View style={styles.menuIcon}>
-                                <Ionicons name="person-outline" size={19} className="text-foreground" />
-                            </View>
-                            <Text style={styles.menuText}>Profile</Text>
-                            <Ionicons name="chevron-forward" size={18} color="#999" />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.menuItem}
-                            onPress={() => handleNavigation("/appearance")}
-                        >
-                            <View style={styles.menuIcon}>
-                                <Ionicons
-                                    name="color-palette-outline"
-                                    size={19}
-                                    className="text-foreground"
-                                />
-                            </View>
-                            <Text style={styles.menuText}>Appearance</Text>
-                            <Ionicons name="chevron-forward" size={18} color="#999" />
-                        </TouchableOpacity>
                     </View>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity></View>
         </Modal>
     );
 };

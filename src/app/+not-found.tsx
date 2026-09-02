@@ -16,7 +16,7 @@ const NotFoundScreen = () => {
                 }}
             />
 
-            <View style={styles.container}>
+            <View style={styles.container} className="flex-1 w-full max-w-3xl">
                 <View style={styles.content}>
                     <Text style={styles.code}>404</Text>
 

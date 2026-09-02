@@ -29,7 +29,8 @@ const AppearanceScreen = () => {
 
   return (
     <Stack.Screen options={{ headerShown: false }}>
-      <View className="flex-1 bg-background px-5 pt-6">
+      <View className="flex-1 bg-background px-5 pt-6 w-full max-w-3xl
+">
         <View className="flex-row gap-3 items-center pt-2 pb-3 mb-3">
           <View className="w-6 h-6 rounded-full bg-[#030229]/10 dark:bg-surface items-center justify-center">
             <Pressable onPress={() => router.back()} hitSlop={10}>
@@ -57,11 +58,10 @@ const AppearanceScreen = () => {
               <Pressable
                 key={item.value}
                 onPress={() => setTheme(item.value)}
-                className={`flex-row items-center rounded-2xl border p-4 ${
-                  selected
-                    ? "border-primary bg-primary-light dark:bg-surface"
-                    : "border-border bg-primary/10"
-                }`}
+                className={`flex-row items-center rounded-2xl border p-4 ${selected
+                  ? "border-primary bg-primary-light dark:bg-surface"
+                  : "border-border bg-primary/10"
+                  }`}
               >
                 <View className="h-11 w-11 items-center justify-center rounded-full bg-background">
                   <Ionicons name={item.icon} size={22} color="#0072CE" />

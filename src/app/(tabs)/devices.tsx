@@ -126,7 +126,7 @@ const DevicesScreen = () => {
     };
 
     const DeviceCard = ({ device }: { device: Device }) => (
-        <View style={[styles.card, { width: cardWidth }]}>
+        <View style={[styles.card, { width: cardWidth }]} >
             <LinearGradient
                 colors={['#f8f9fe', '#ffffff']}
                 style={styles.cardGradient}

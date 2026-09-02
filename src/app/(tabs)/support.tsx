@@ -44,6 +44,7 @@ const SupportScreen = () => {
 
     return (
         <Screen>
+            <View className="flex-1 w-full max-w-3xl">
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 100 }}
@@ -191,7 +192,7 @@ const SupportScreen = () => {
                         </View>
                     ))}
                 </View>
-            </ScrollView>
+            </ScrollView></View>
         </Screen>
     );
 };

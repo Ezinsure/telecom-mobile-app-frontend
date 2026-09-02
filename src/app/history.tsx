@@ -28,79 +28,80 @@ const HistoryScreen = () => {
 
     return (
         <Screen>
-            <Stack.Screen options={{ headerShown: false }} >
-                <SafeAreaView style={{ flex: 1, marginTop: 18 }} edges={['top']}  >
-                    <View className="flex-row items-center gap-3 px-4 pt-2 pb-3">
-                        <Pressable onPress={() => router.back()} hitSlop={10}>
-                            <Ionicons name="chevron-back" size={18} className="text-foreground" />
-                        </Pressable>
-                        <View>
-                            <Text className="font-poppins-medium text-base text-foreground">
-                                Purchase History
-                            </Text>
-                            <Text className="font-poppins text-xs text-text-secondary">{phone}</Text>
-                        </View>
-                    </View>
-
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
-                    >
-                        {MOCK_HISTORY.length === 0 ? (
-                            <View className="items-center gap-3 pt-16">
-                                <View className="w-14 h-14 rounded-full bg-surface items-center justify-center">
-                                    <Ionicons name="receipt-outline" size={24} color="#8A8DA6" />
-                                </View>
-                                <Text className="font-poppins text-sm text-text-secondary text-center">
-                                    No purchases found for this number
+            <View className="flex-1 w-full max-w-3xl">
+                <Stack.Screen options={{ headerShown: false }} >
+                    <SafeAreaView style={{ flex: 1, marginTop: 18 }} edges={['top']}  >
+                        <View className="flex-row items-center gap-3 px-4 pt-2 pb-3">
+                            <Pressable onPress={() => router.back()} hitSlop={10}>
+                                <Ionicons name="chevron-back" size={18} className="text-foreground" />
+                            </Pressable>
+                            <View>
+                                <Text className="font-poppins-medium text-base text-foreground">
+                                    Purchase History
                                 </Text>
+                                <Text className="font-poppins text-xs text-text-secondary">{phone}</Text>
                             </View>
-                        ) : (
-                            <View className="gap-3">
-                                {MOCK_HISTORY.map((item) => (
-                                    <View
-                                        key={item.id}
-                                        className="flex-row items-center justify-between bg-surface rounded-2xl shadow-sm px-4 py-3"
-                                    >
-                                        <View className="flex-row items-center gap-3 flex-1 pr-3">
-                                            <View className="w-8 h-8 rounded-full bg-[#0072CE]/10 dark:bg-background items-center justify-center">
-                                                <Ionicons
-                                                    name={item.type === 'internet' ? 'wifi' : 'call'}
-                                                    size={16}
-                                                    className="text-[#0072CE] dark:text-foreground"
-                                                />
+                        </View>
+
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
+                        >
+                            {MOCK_HISTORY.length === 0 ? (
+                                <View className="items-center gap-3 pt-16">
+                                    <View className="w-14 h-14 rounded-full bg-surface items-center justify-center">
+                                        <Ionicons name="receipt-outline" size={24} color="#8A8DA6" />
+                                    </View>
+                                    <Text className="font-poppins text-sm text-text-secondary text-center">
+                                        No purchases found for this number
+                                    </Text>
+                                </View>
+                            ) : (
+                                <View className="gap-3">
+                                    {MOCK_HISTORY.map((item) => (
+                                        <View
+                                            key={item.id}
+                                            className="flex-row items-center justify-between bg-surface rounded-2xl shadow-sm px-4 py-3"
+                                        >
+                                            <View className="flex-row items-center gap-3 flex-1 pr-3">
+                                                <View className="w-8 h-8 rounded-full bg-[#0072CE]/10 dark:bg-background items-center justify-center">
+                                                    <Ionicons
+                                                        name={item.type === 'internet' ? 'wifi' : 'call'}
+                                                        size={16}
+                                                        className="text-[#0072CE] dark:text-foreground"
+                                                    />
+                                                </View>
+                                                <View className="flex-1">
+                                                    <Text className="font-poppins text-sm text-foreground">
+                                                        {item.name}
+                                                    </Text>
+                                                    <Text className="font-poppins text-xs text-text-secondary">
+                                                        {item.date}
+                                                    </Text>
+                                                </View>
                                             </View>
-                                            <View className="flex-1">
-                                                <Text className="font-poppins text-sm text-foreground">
-                                                    {item.name}
+                                            <View className="items-end gap-1">
+                                                <Text className="font-poppins-medium text-sm text-foreground">
+                                                    {item.price.toLocaleString()} RWF
                                                 </Text>
-                                                <Text className="font-poppins text-xs text-text-secondary">
-                                                    {item.date}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <View className="items-end gap-1">
-                                            <Text className="font-poppins-medium text-sm text-foreground">
-                                                {item.price.toLocaleString()} RWF
-                                            </Text>
-                                            <View
-                                                className={`px-2 py-0.5 rounded-full ${item.status === 'success' ? 'bg-[#E6F7EE]' : 'bg-[#FCE8E8]'
-                                                    }`}
-                                            >
-                                                <Text
-                                                    className={`font-poppins text-[10px] ${item.status === 'success' ? 'text-[#16A34A]' : 'text-[#E5484D]'
+                                                <View
+                                                    className={`px-2 py-0.5 rounded-full ${item.status === 'success' ? 'bg-[#E6F7EE]' : 'bg-[#FCE8E8]'
                                                         }`}
                                                 >
-                                                    {item.status === 'success' ? 'Successful' : 'Failed'}
-                                                </Text>
+                                                    <Text
+                                                        className={`font-poppins text-[10px] ${item.status === 'success' ? 'text-[#16A34A]' : 'text-[#E5484D]'
+                                                            }`}
+                                                    >
+                                                        {item.status === 'success' ? 'Successful' : 'Failed'}
+                                                    </Text>
+                                                </View>
                                             </View>
                                         </View>
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-                    </ScrollView>
-                </SafeAreaView></Stack.Screen></Screen>
+                                    ))}
+                                </View>
+                            )}
+                        </ScrollView>
+                    </SafeAreaView></Stack.Screen></View></Screen>
     );
 };
 export default HistoryScreen;

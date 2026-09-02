@@ -469,83 +469,84 @@ const InternetScreen = () => {
                 animationType="fade"
                 onRequestClose={closeBuyModal}
             >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : undefined}
-                    className="flex-1 justify-end bg-black/40"
-                >
-                    <View className="bg-white dark:bg-surface rounded-t-3xl px-5 pt-6 pb-8">
-                        <View className="flex-row items-center justify-between mb-4">
-                            <Text className="text-sm font-normal text-foreground font-poppins">
-                                Confirm Purchase
-                            </Text>
-                            <Pressable onPress={closeBuyModal} hitSlop={10}>
-                                <Ionicons
-                                    name="close"
-                                    size={20}
-                                    className="text-text-secondary"
-                                />
-                            </Pressable>
-                        </View>
+                <View className="flex-1 w-full max-w-3xl">
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : undefined}
+                        className="flex-1 justify-end bg-black/40"
+                    >
+                        <View className="bg-white dark:bg-surface rounded-t-3xl px-5 pt-6 pb-8">
+                            <View className="flex-row items-center justify-between mb-4">
+                                <Text className="text-sm font-normal text-foreground font-poppins">
+                                    Confirm Purchase
+                                </Text>
+                                <Pressable onPress={closeBuyModal} hitSlop={10}>
+                                    <Ionicons
+                                        name="close"
+                                        size={20}
+                                        className="text-text-secondary"
+                                    />
+                                </Pressable>
+                            </View>
 
-                        {selectedPlan && (
-                            <View className="dark:bg-background" style={styles.planCard}>
-                                <View>
-                                    <Text className="font-poppins-medium text-sm text-foreground">
-                                        {selectedPlan.data}
-                                    </Text>
-                                    <Text className="text-[11px] mt-1 text-text-secondary font-poppins">
-                                        {selectedPlan.duration}
+                            {selectedPlan && (
+                                <View className="dark:bg-background" style={styles.planCard}>
+                                    <View>
+                                        <Text className="font-poppins-medium text-sm text-foreground">
+                                            {selectedPlan.data}
+                                        </Text>
+                                        <Text className="text-[11px] mt-1 text-text-secondary font-poppins">
+                                            {selectedPlan.duration}
+                                        </Text>
+                                    </View>
+                                    <Text className="font-poppins-medium text-lg text-[#0072CE] dark:text-foreground">
+                                        {selectedPlan.price.toLocaleString()} FRW
                                     </Text>
                                 </View>
-                                <Text className="font-poppins-medium text-lg text-[#0072CE] dark:text-foreground">
-                                    {selectedPlan.price.toLocaleString()} FRW
-                                </Text>
-                            </View>
-                        )}
+                            )}
 
-                        <Text className="text-sm font-poppins text-foreground mb-2">
-                            Phone number
-                        </Text>
-                        <TextInput
-                            value={phone}
-                            onChangeText={(text) => {
-                                setPhone(text);
-                                if (phoneError) setPhoneError("");
-                            }}
-                            placeholder="07XX XXX XXX"
-                            keyboardType="phone-pad"
-                            className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
-                        />
-                        {!!phoneError && (
-                            <Text className="text-red-500 font-poppins text-xs mt-1">
-                                {phoneError}
+                            <Text className="text-sm font-poppins text-foreground mb-2">
+                                Phone number
                             </Text>
-                        )}
-
-                        <View style={styles.buttonsRow}>
-                            <Pressable
-                                onPress={closeBuyModal}
-                                style={({ pressed }) => [
-                                    styles.cancelButton,
-                                    pressed && styles.pressed,
-                                ]}
-                            >
-                                <Text className="text-xs font-poppins-medium ">Cancel</Text>
-                            </Pressable>
-                            <Pressable
-                                style={({ pressed }) => [
-                                    styles.confirmButton,
-                                    pressed && styles.pressed,
-                                ]}
-                                onPress={handleConfirmPurchase}
-                            >
-                                <Text className="text-white text-xs font-poppins-medium">
-                                    Confirm
+                            <TextInput
+                                value={phone}
+                                onChangeText={(text) => {
+                                    setPhone(text);
+                                    if (phoneError) setPhoneError("");
+                                }}
+                                placeholder="07XX XXX XXX"
+                                keyboardType="phone-pad"
+                                className={`border rounded-xl px-4 py-2 text-sm text-foreground font-poppins ${phoneError ? "border-[#E5484D] dark:border-[#E5484D]" : "border-[#03022920] dark:border-[#FFFFFF10] "}`}
+                            />
+                            {!!phoneError && (
+                                <Text className="text-red-500 font-poppins text-xs mt-1">
+                                    {phoneError}
                                 </Text>
-                            </Pressable>
+                            )}
+
+                            <View style={styles.buttonsRow}>
+                                <Pressable
+                                    onPress={closeBuyModal}
+                                    style={({ pressed }) => [
+                                        styles.cancelButton,
+                                        pressed && styles.pressed,
+                                    ]}
+                                >
+                                    <Text className="text-xs font-poppins-medium ">Cancel</Text>
+                                </Pressable>
+                                <Pressable
+                                    style={({ pressed }) => [
+                                        styles.confirmButton,
+                                        pressed && styles.pressed,
+                                    ]}
+                                    onPress={handleConfirmPurchase}
+                                >
+                                    <Text className="text-white text-xs font-poppins-medium">
+                                        Confirm
+                                    </Text>
+                                </Pressable>
+                            </View>
                         </View>
-                    </View>
-                </KeyboardAvoidingView>
+                    </KeyboardAvoidingView></View>
             </Modal>
         </Screen>
     );
