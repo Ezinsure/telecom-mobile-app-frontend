@@ -3,3 +3,4 @@ packages:
 onlyBuiltDependencies: []
 ignoredBuiltDependencies:
   - dtrace-provider
+minimumReleaseAge: 0
