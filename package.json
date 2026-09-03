@@ -2,6 +2,7 @@
   "name": "solektra-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.34.1",
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.4.1",
     "@expo/ui": "~57.0.11",
