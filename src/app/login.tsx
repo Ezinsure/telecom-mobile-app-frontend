@@ -7,47 +7,29 @@ import { Animated, Image, KeyboardAvoidingView, Platform, Pressable, TextInput, 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Screen from '../components/ui/Screen';
 
+const OTP_LENGTH = 6;
+const RESEND_COOLDOWN = 30;
+
 const LoginScreen = () => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(10)).current;
     const router = useRouter();
     const { login } = useAuth();
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState('');
+    const [step, setStep] = useState<'phone' | 'otp'>('phone');
+    const [phone, setPhone] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [otp, setOtp] = useState('');
+    const [otpError, setOtpError] = useState('');
+    const [sending, setSending] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [cooldown, setCooldown] = useState(0);
 
-    const handleLogin = async () => {
-        let hasError = false;
-        const digitsOnly = phone.replace(/\s+/g, '');
-
-        if (digitsOnly.length < 9) {
-            setPhoneError('Enter a valid phone number');
-            hasError = true;
-        }
-        if (password.length < 4) {
-            setPasswordError('Enter your password');
-            hasError = true;
-        }
-        if (hasError) return;
-
-        setSubmitting(true);
-        setFormError('');
-        try {
-            // TODO: replace with real login API call, 
-            // const { token } = await api.login(digitsOnly, password);
-            // securely store `token`, then call login(digitsOnly).
-            await new Promise((resolve) => setTimeout(resolve, 900));
-            login(digitsOnly);
-            router.back();
-        } catch {
-            setFormError('Invalid phone number or password');
-        } finally {
-            setSubmitting(false);
-        }
-    };
+    useEffect(() => {
+        if (cooldown <= 0) return;
+        const timer = setTimeout(() => setCooldown((c) => c - 1), 1000);
+        return () => clearTimeout(timer);
+    }, [cooldown]);
 
     useEffect(() => {
         Animated.parallel([
@@ -63,6 +45,47 @@ const LoginScreen = () => {
             }),
         ]).start();
     }, []);
+
+    const handleSendOtp = async () => {
+        const digitsOnly = phone.replace(/\s+/g, '');
+        if (digitsOnly.length < 9) {
+            setPhoneError('Enter a valid phone number');
+            return;
+        }
+        setSending(true);
+        try {
+            // TODO: replace with  real "send OTP" API call
+            // await api.sendOtp(digitsOnly);
+            await new Promise((resolve) => setTimeout(resolve, 900));
+            setOtp('');
+            setOtpError('');
+            setStep('otp');
+            setCooldown(RESEND_COOLDOWN);
+        } catch {
+            setPhoneError('Could not send code. Try again.');
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (otp.length < OTP_LENGTH) {
+            setOtpError(`Enter the ${OTP_LENGTH}-digit code`);
+            return;
+        }
+        setSubmitting(true);
+        try {
+            // TODO: replace with  real "verify OTP" API call
+            // const { token } = await api.verifyOtp(phone, otp);
+            await new Promise((resolve) => setTimeout(resolve, 900));
+            login(phone.replace(/\s+/g, '')); // from useAuth()
+            router.back();
+        } catch {
+            setOtpError('Incorrect code. Try again.');
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <Screen>
@@ -103,58 +126,82 @@ const LoginScreen = () => {
                                         <Text className="font-poppins text-xs text-[#E5484D]">{formError}</Text>
                                     </View>
                                 )}
+                                {step === 'phone' ? (
+                                    <>
+                                        <Text className="font-poppins text-sm text-foreground mb-2">
+                                            Phone number
+                                        </Text>
+                                        <TextInput
+                                            value={phone}
+                                            onChangeText={(t) => {
+                                                setPhone(t);
+                                                if (phoneError) setPhoneError('');
+                                            }}
+                                            placeholder="07XX XXX XXX"
+                                            keyboardType="phone-pad"
+                                            className={`border rounded-xl px-4 py-3 font-poppins text-sm text-foreground mb-1 ${phoneError ? 'border-[#E5484D]' : 'border-gray-200'
+                                                }`}
+                                        />
+                                        {!!phoneError && (
+                                            <Text className="font-poppins text-xs text-[#E5484D] mb-2">{phoneError}</Text>
+                                        )}
 
-                                <Text className="font-poppins text-sm text-foreground mb-2">
-                                    Phone number
-                                </Text>
-                                <TextInput
-                                    value={phone}
-                                    onChangeText={(t) => {
-                                        setPhone(t);
-                                        if (phoneError) setPhoneError('');
-                                    }}
-                                    placeholder="07XX XXX XXX"
-                                    keyboardType="phone-pad"
-                                    className={`border rounded-xl px-4 py-3 font-poppins text-sm text-foreground mb-1 ${phoneError ? 'border-[#E5484D]' : 'border-gray-200'
-                                        }`}
-                                />
-                                {!!phoneError && (
-                                    <Text className="font-poppins text-xs text-[#E5484D] mb-2">{phoneError}</Text>
+                                        <Pressable
+                                            className="bg-[#0072CE] dark:bg-surface rounded-xl py-3.5 items-center mt-6 active:opacity-80"
+                                            onPress={handleSendOtp}
+                                            disabled={sending}
+                                        >
+                                            <Text className="font-poppins-semibold text-white text-sm">
+                                                {sending ? 'Sending code…' : 'Send Code'}
+                                            </Text>
+                                        </Pressable>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Text className="font-poppins text-sm text-foreground mb-2">
+                                            Enter the code sent to {phone}
+                                        </Text>
+                                        <TextInput
+                                            value={otp}
+                                            onChangeText={(t) => {
+                                                setOtp(t.replace(/[^0-9]/g, '').slice(0, OTP_LENGTH));
+                                                if (otpError) setOtpError('');
+                                            }}
+                                            placeholder="123456"
+                                            keyboardType="number-pad"
+                                            maxLength={OTP_LENGTH}
+                                            className={`border rounded-xl px-4 py-3 font-poppins text-sm text-foreground mb-1 tracking-widest ${otpError ? 'border-[#E5484D]' : 'border-gray-200'
+                                                }`}
+                                        />
+                                        {!!otpError && (
+                                            <Text className="font-poppins text-xs text-[#E5484D] mb-2">{otpError}</Text>
+                                        )}
+
+                                        <View className="flex-row justify-between items-center mt-3">
+                                            <Pressable onPress={() => setStep('phone')}>
+                                                <Text className="font-poppins text-xs text-[#03022980]">Change number</Text>
+                                            </Pressable>
+                                            <Pressable onPress={handleSendOtp} disabled={cooldown > 0 || sending}>
+                                                <Text
+                                                    className={`font-poppins text-xs ${cooldown > 0 ? 'text-[#03022950]' : 'text-[#0072CE]'
+                                                        }`}
+                                                >
+                                                    {cooldown > 0 ? `Resend in ${cooldown}s` : 'Resend code'}
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+
+                                        <Pressable
+                                            className="bg-[#0072CE] dark:bg-surface rounded-xl py-3.5 items-center mt-6 active:opacity-80"
+                                            onPress={handleVerifyOtp}
+                                            disabled={submitting}
+                                        >
+                                            <Text className="font-poppins-semibold text-white text-sm">
+                                                {submitting ? 'Verifying…' : 'Verify & Login'}
+                                            </Text>
+                                        </Pressable>
+                                    </>
                                 )}
-
-                                <Text className="font-poppins text-sm text-foreground mb-2 mt-3">
-                                    Password
-                                </Text>
-                                <TextInput
-                                    value={password}
-                                    onChangeText={(t) => {
-                                        setPassword(t);
-                                        if (passwordError) setPasswordError('');
-                                    }}
-                                    placeholder="••••••••"
-                                    secureTextEntry
-                                    className={`border rounded-xl px-4 py-3 font-poppins text-sm text-foreground mb-1 ${passwordError ? 'border-[#E5484D]' : 'border-gray-200'
-                                        }`}
-                                />
-                                {!!passwordError && (
-                                    <Text className="font-poppins text-xs text-[#E5484D] mb-2">{passwordError}</Text>
-                                )}
-
-                                <Pressable
-                                    className="bg-[#0072CE] dark:bg-surface rounded-xl py-3.5 items-center mt-6 active:opacity-80"
-                                    onPress={handleLogin}
-                                    disabled={submitting}
-                                >
-                                    <Text className="font-poppins-semibold text-white text-sm">
-                                        {submitting ? 'Logging in…' : 'Login'}
-                                    </Text>
-                                </Pressable>
-
-                                {/* <Pressable className="items-center mt-5" onPress={() => router.push('/signup')}>
-                        <Text className="font-poppins text-sm text-[#0072CE]">
-                            Don&apos;t have an account? Sign up
-                        </Text>
-                    </Pressable> */}
                             </View>
                         </KeyboardAvoidingView>
                     </SafeAreaView></Stack.Screen></View></Screen>

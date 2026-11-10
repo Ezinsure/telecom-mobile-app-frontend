@@ -53,7 +53,7 @@ const VoiceScreen = () => {
         <Screen>
             <View className="px-6 pt-2 pb-3 mb-4">
                 <Text className="text-lg font-poppins-medium mt-4 text-primary">
-                    Voice Bundles
+                    VoLTE Bundles
                 </Text>
                 <Text className="text-sm text-text-secondary">
                     Choose a bundle and enjoy more time to talk.

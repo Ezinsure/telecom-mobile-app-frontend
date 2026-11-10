@@ -7,21 +7,21 @@
     "scheme": "solektraapp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
+      "icon": "./assets/images/icon.png",
       "bundleIdentifier": "com.solektra.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
- "icon": "./assets/images/icon.png",
-"android": {
-  "adaptiveIcon": {
-    "backgroundColor": "#E6F4FE",
-    "foregroundImage": "./assets/images/android-icon-foreground.png"
-  },
-  "predictiveBackGestureEnabled": false,
-  "package": "com.solektra.app"
-},
+    "icon": "./assets/images/icon.png",
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.solektra.app"
+    },
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
@@ -45,8 +45,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a9fc03e5-7fb2-4432-8aee-7497253799dc"
+        "projectId": "0219734a-092c-40cf-a041-f2eb6dd326d7"
       }
-    }
+    },
+    "owner": "solektra"
   }
 }
